@@ -1,0 +1,140 @@
+body {
+  margin: 0;
+  background: #fff6f7;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+header {
+  background: #75d6f0;
+  color: #222;
+  padding: 28px 0 10px 0;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 28px;
+  border-bottom: 6px solid #f7645b;
+  box-shadow: 0 2px 8px rgba(117, 214, 240, 0.1);
+}
+
+.logo-img {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: #222;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+nav ul li a:hover {
+  background: #ffc94a;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  color: #f7645b;
+  margin-top: 0;
+  margin-bottom: 26px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  width: 95%;
+  max-width: 1000px;
+  margin-bottom: 36px;
+}
+
+.product-card {
+  background: #fff;
+  border: 2.5px solid #75d6f0;
+  border-radius: 17px;
+  padding: 22px 13px 18px 13px;
+  box-shadow: 0 3px 12px rgba(117, 214, 240, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-card img {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 9px;
+  margin-bottom: 11px;
+  background: #fff6f7;
+  border: 2.5px solid #ffc94a;
+}
+
+.product-card h3 {
+  margin: 6px 0 9px 0;
+  font-size: 1.16em;
+  font-weight: bold;
+  color: #222;
+}
+
+.product-card p {
+  margin: 0 0 6px 0;
+  color: #444;
+  font-size: 1em;
+}
+
+.order-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background: #f7645b;
+  color: #fff;
+  border: none;
+  padding: 8px 19px;
+  border-radius: 7px;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 1.5px 6px rgba(117, 214, 240, 0.07);
+  transition: background 0.19s;
+}
+.order-btn:hover {
+  background: #ffc94a;
+  color: #222;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 15px 0 10px 0;
+  color: #aaa;
+  background: transparent;
+  margin-top: 40px;
+  font-size: 1em;
+}
