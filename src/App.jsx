@@ -1,17 +1,24 @@
 import React from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
 import "./App.css";
+import "./index.css";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Girls from "./pages/Girls";
+import Boys from "./pages/Boys";
+import ProductDetail from "./pages/ProductDetail";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <Header />
-      <Home />
-      <Footer />
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/girls" element={<Girls />} />
+        <Route path="/boys" element={<Boys />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+      </Routes>
+    </Layout>
   );
-};
+}
 
 export default App;
