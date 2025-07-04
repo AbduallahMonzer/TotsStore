@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap");
+
+:root {
+  --primary-color: #72cdfa;
+  --accent-color: #ff7d7d;
+  --secondary-color: #ffe082;
+  --background: #fffdf9;
+  --text-color: #222;
+  --card-bg: #fff;
+  --card-radius: 20px;
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --cta-bg: #ff7d7d;
+  --cta-bg-hover: #ff5252;
+  --cta-text: #fff;
+  --navbar-bg: #fff;
+  --navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --footer-bg: #f6f6f6;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--background);
+  color: var(--text-color);
+  font-family: "Quicksand", Arial, sans-serif;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 0.75em 2em;
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  transition: background 0.15s;
+}
+
+button:hover {
+  background: var(--cta-bg-hover);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  border-radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.navbar {
+  background: var(--navbar-bg);
+  box-shadow: var(--navbar-shadow);
+  padding: 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5em 1em;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.4em;
+}
+
+.nav-links a {
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 1.08rem;
+  padding: 6px 14px;
+  border-radius: 10px;
+  transition: background 0.17s;
+}
+
+.nav-links a:hover {
+  background: var(--secondary-color);
+  color: var(--accent-color);
+}
+
+.footer {
+  background: var(--footer-bg);
+  text-align: center;
+  padding: 1.6em 0 1em 0;
+  margin-top: 40px;
+  font-size: 1rem;
+  color: #888;
+  border-top: 1.5px solid #eee;
+}
+@media (max-width: 600px) {
+  .navbar-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+  .nav-links {
+    flex-direction: row;
+    gap: 1em;
+    font-size: 0.98em;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .brand img {
+    height: 30px !important;
+  }
+  .brand span {
+    font-size: 1em !important;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 15px;
+  }
+  button {
+    width: 100%;
+    padding: 0.85em 0;
+    font-size: 1.1rem;
+  }
+}
