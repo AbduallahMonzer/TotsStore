@@ -1,133 +1,119 @@
-// src/pages/ProductDetail.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import products from "../data/products";
-import { useOrderOpnForm } from "../hooks/userOrderOpnForm";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const orderWithOpnForm = useOrderOpnForm();
-
-  const product = products.find((p) => String(p.id) === String(id));
-  const images = product?.images || (product?.image ? [product.image] : []);
+  const [product, setProduct] = useState(null);
   const [mainIndex, setMainIndex] = useState(0);
+  const [error, setError] = useState(null);
 
-  if (!product) {
-    return (
-      <div style={{ textAlign: "center", marginTop: 60 }}>
-        <h2>Product not found</h2>
-        <button className="order-btn" onClick={() => navigate(-1)}>
-          Go Back
-        </button>
-      </div>
-    );
-  }
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  function handleOrderClick() {
-    orderWithOpnForm({
-      "Product Name": product.name,
-      "Product Price": product.price,
-      Color: product.color,
-      // Add any more hidden fields you set in OpnForm
-    });
-  }
+  useEffect(() => {
+    let isMounted = true;
+    setError(null);
+    setProduct(null); // reset product on id change
+    fetch(`${BASE_URL}/api/products/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch product data");
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted) setProduct(data);
+      })
+      .catch((err) => {
+        if (isMounted) setError(err.message);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, BASE_URL]);
+
+  if (error) return <div>Error: {error}</div>;
+  if (!product) return <div>Loading...</div>;
+
+  // Image handling
+  const images = product.images?.length
+    ? product.images.map((img) =>
+        img.imageUrl.startsWith("/assets/")
+          ? img.imageUrl
+          : `/assets/${img.imageUrl.replace(/^\/+/, "")}`
+      )
+    : product.imageUrl
+    ? [
+        product.imageUrl.startsWith("/assets/")
+          ? product.imageUrl
+          : `/assets/${product.imageUrl.replace(/^\/+/, "")}`,
+      ]
+    : [];
 
   return (
-    <div
-      style={{
-        maxWidth: 980,
-        margin: "2.5em auto",
-        padding: "1.5em 1.2em",
-        background: "#fff",
-        borderRadius: 18,
-        boxShadow: "0 4px 24px #eee",
-      }}
-    >
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "3em" }}>
-        <div style={{ flex: "0 0 350px", minWidth: 280 }}>
-          <img
-            src={images[mainIndex]}
-            alt={product.name}
-            style={{
-              width: 330,
-              maxWidth: "90vw",
-              borderRadius: 14,
-              border: "2.5px solid #ffe082",
-              boxShadow: "0 3px 18px #ffe08244",
-            }}
-          />
-          {images.length > 1 && (
-            <div
-              style={{
-                display: "flex",
-                gap: 10,
-                marginTop: 16,
-                justifyContent: "center",
-              }}
-            >
-              {images.map((img, idx) => (
-                <img
-                  key={img}
-                  src={img}
-                  alt={`thumb-${idx}`}
-                  style={{
-                    width: 54,
-                    height: 54,
-                    objectFit: "cover",
-                    borderRadius: 7,
-                    border:
-                      mainIndex === idx
-                        ? "2px solid #72cdfa"
-                        : "1.5px solid #eee",
-                    cursor: "pointer",
-                    opacity: mainIndex === idx ? 1 : 0.72,
-                    transition: "border 0.14s, opacity 0.13s",
-                  }}
-                  onClick={() => setMainIndex(idx)}
-                />
-              ))}
+    <section className="product-detail">
+      <div className="product-imgs">
+        {images.length > 0 ? (
+          <>
+            <div className="main-img-wrapper">
+              <img
+                src={images[mainIndex]}
+                alt={product.name}
+                className="product-img"
+                style={{
+                  width: "100%",
+                  maxHeight: "420px",
+                  objectFit: "contain",
+                  borderRadius: "14px",
+                }}
+              />
             </div>
-          )}
-        </div>
-        <div style={{ flex: 1, minWidth: 250 }}>
-          <h2 style={{ color: "#ff7d7d", fontSize: "1.4em" }}>
-            {product.name}
-          </h2>
-          <p style={{ marginBottom: 18 }}>{product.description}</p>
-          <div style={{ marginBottom: 6 }}>
-            <b>Price:</b> {product.price}
-          </div>
-          <div style={{ marginBottom: 6 }}>
-            <b>Color:</b> {product.color} &nbsp; <b>Material:</b>{" "}
-            {product.material}
-          </div>
-          <div style={{ marginBottom: 6 }}>
-            <b>Sizes:</b> {product.sizes && product.sizes.join(", ")}
-          </div>
-          <div style={{ margin: "2em 0 0.7em 0" }}>
-            <button
-              className="order-btn"
-              style={{ fontSize: "1.14em", marginTop: 10 }}
-              onClick={handleOrderClick}
-            >
-              Order Now
-            </button>
-          </div>
-          <button
-            className="order-btn"
-            style={{
-              background: "#eee",
-              color: "#333",
-              marginTop: 10,
-              fontSize: "0.98em",
-            }}
-            onClick={() => navigate(-1)}
-          >
-            Back to Shop
-          </button>
-        </div>
+            {images.length > 1 && (
+              <div className="thumbnail-row">
+                {images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`thumbnail-${idx}`}
+                    className={`product-thumb${
+                      mainIndex === idx ? " selected" : ""
+                    }`}
+                    onClick={() => setMainIndex(idx)}
+                    style={{ cursor: "pointer" }}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div>No images available.</div>
+        )}
       </div>
-    </div>
+
+      <div className="product-content">
+        <h2>{product.name}</h2>
+        <p className="product-desc">{product.description}</p>
+        <div className="product-meta">
+          <span>
+            <b>Price:</b> {product.price}
+          </span>
+          <span>
+            <b>Color:</b> {product.color || "N/A"}
+          </span>
+          <span>
+            <b>Material:</b> {product.material || "N/A"}
+          </span>
+          <span>
+            <b>Sizes:</b>{" "}
+            {product.sizes?.length ? product.sizes.join(", ") : "One Size"}
+          </span>
+        </div>
+        <button
+          className="order-btn"
+          onClick={() => navigate(`/order/${product.id}`)}
+        >
+          Order Now
+        </button>
+      </div>
+    </section>
   );
 }
